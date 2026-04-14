@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanukichi Action Oracle Cards</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap');
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --cream: #F5F0E8;
+    --dark: #1A1612;
+    --text: #2C2420;
+    --card-bg: #FDFAF4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'Josefin Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(201,168,76,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 8%, rgba(201,168,76,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 55%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 20%, rgba(201,168,76,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 82% 70%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 35%, rgba(201,168,76,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 75%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 85%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 35% 60%, rgba(201,168,76,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 45%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 50%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 95% 80%, rgba(201,168,76,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 48% 30%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 92%, rgba(201,168,76,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+  .eyebrow {
+    font-weight: 200;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(26px, 5vw, 44px);
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  header h1 em { font-style: italic; color: var(--gold-light); }
+  .gold-line {
+    width: 50px; height: 1px;
+    background: var(--gold);
+    margin: 18px auto;
+    opacity: 0.6;
+  }
+  .subtitle {
+    font-size: 11px;
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    color: rgba(245,240,232,0.45);
+  }
+
+  /* ── Mode tabs ── */
+  .mode-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 40px;
+    border: 1px solid rgba(201,168,76,0.3);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 44px;
+  }
+  .mode-tab {
+    flex: 1;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    color: rgba(245,240,232,0.4);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .mode-tab.active {
+    color: var(--dark);
+    background: var(--gold);
+  }
+  .mode-tab:not(.active):hover {
+    color: var(--gold);
+  }
+  .mode-tab .lock-icon {
+    font-size: 9px;
+    margin-left: 4px;
+    opacity: 0.6;
+  }
+
+  /* ── Sections ── */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeUp 0.5s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Draw button ── */
+  .draw-btn {
+    display: block;
+    margin: 0 auto 40px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 15px 44px;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .draw-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+    z-index: -1;
+  }
+  .draw-btn:hover { color: var(--dark); }
+  .draw-btn:hover::before { transform: scaleX(1); }
+  .draw-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* ── Oracle Card ── */
+  .oracle-card {
+    background: var(--card-bg);
+    border: 1px solid var(--gold);
+    padding: 14px 12px 16px;
+    position: relative;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5), inset 0 0 0 4px rgba(201,168,76,0.1);
+  }
+  .oracle-card::before, .oracle-card::after {
+    content: '✦';
+    position: absolute;
+    font-size: 7px;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+  .oracle-card::before { top: 6px; left: 8px; }
+  .oracle-card::after  { bottom: 6px; right: 8px; }
+
+  .card-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    background: var(--gold);
+    color: var(--dark);
+    font-size: 11px;
+    margin-bottom: 7px;
+  }
+  .card-animal {
+    font-size: 9px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .card-img-area {
+    width: 100%;
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.18);
+    margin-bottom: 10px;
+  }
+  .card-img-area img { width: 100%; height: auto; display: block; }
+  .card-img-area .placeholder { font-size: 32px; opacity: 0.25; }
+  .card-action {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ══════════════════════════════
+     FREE: 1-card draw
+  ══════════════════════════════ */
+  .single-area {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .single-card-wrap {
+    display: none;
+    animation: fadeUp 0.6s ease;
+  }
+  .single-card-wrap.visible { display: block; }
+
+  .single-card-wrap .oracle-card {
+    margin-bottom: 20px;
+  }
+
+  .card-desc-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.18);
+    padding: 20px 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.85);
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .upsell-box {
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 24px;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .upsell-box p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .upsell-box p em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .etsy-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--dark);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 13px 32px;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    margin-bottom: 10px;
+  }
+  .etsy-btn:hover { opacity: 0.85; }
+  .upsell-note {
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.3);
+  }
+
+  .redraw-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: rgba(201,168,76,0.5);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 10px 28px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .redraw-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ══════════════════════════════
+     SPREAD: 5-card
+  ══════════════════════════════ */
+  .spread-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    max-width: 620px;
+    margin: 0 auto 40px;
+    align-items: center;
+    justify-items: center;
+  }
+  .card-slot[data-pos="top"]    { grid-column: 2; grid-row: 1; }
+  .card-slot[data-pos="left"]   { grid-column: 1; grid-row: 2; }
+  .card-slot[data-pos="center"] { grid-column: 2; grid-row: 2; }
+  .card-slot[data-pos="right"]  { grid-column: 3; grid-row: 2; }
+  .card-slot[data-pos="bottom"] { grid-column: 2; grid-row: 3; }
+
+  .card-slot { width: 155px; }
+
+  .card-slot .oracle-card {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .card-slot .oracle-card.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .card-slot[data-pos="center"] .oracle-card {
+    border-color: var(--gold-light);
+    box-shadow: 0 4px 36px rgba(201,168,76,0.22), inset 0 0 0 4px rgba(201,168,76,0.18);
+  }
+
+  .pos-label {
+    margin-top: 7px;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.55);
+  }
+  .card-slot[data-pos="center"] .pos-label { color: var(--gold-light); }
+
+  /* Card list */
+  .cards-list {
+    max-width: 620px;
+    margin: 0 auto 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .card-detail {
+    background: rgba(255,255,255,0.02);
+    border-left: 2px solid var(--gold);
+    padding: 10px 13px;
+  }
+  .card-detail-pos {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3px;
+    font-weight: 300;
+  }
+  .card-detail-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--cream);
+    margin-bottom: 3px;
+  }
+  .card-detail-desc {
+    font-size: 11px;
+    font-weight: 200;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.6;
+  }
+
+  /* AI Reading */
+  .reading-section {
+    max-width: 620px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(201,168,76,0.25);
+    padding-top: 36px;
+  }
+  .reading-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .reading-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+  }
+  .reading-header h2 em { font-style: italic; color: var(--gold-light); }
+  .reading-box {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(201,168,76,0.18);
+    padding: 26px 28px;
+    min-height: 110px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(245,240,232,0.88);
+  }
+  .reading-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(201,168,76,0.55);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 200;
+    letter-spacing: 0.2em;
+  }
+  .dots { display: flex; gap: 4px; }
+  .dots span {
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: dp 1.4s ease-in-out infinite;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dp {
+    0%,80%,100% { opacity: 0.2; transform: scale(1); }
+    40% { opacity: 1; transform: scale(1.3); }
+  }
+
+  .reset-btn {
+    display: block;
+    margin: 36px auto 0;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: rgba(201,168,76,0.5);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 11px 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .reset-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .save-pdf-btn {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 12px 30px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  .save-pdf-btn:hover { opacity: 0.85; }
+
+  /* Locked overlay */
+  .locked-msg {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .locked-msg .lock { font-size: 32px; margin-bottom: 20px; opacity: 0.4; }
+  .locked-msg h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .locked-msg p {
+    font-size: 12px;
+    font-weight: 200;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.45);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(201,168,76,0.12);
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.18em;
+    color: rgba(245,240,232,0.25);
+  }
+  footer a { color: rgba(201,168,76,0.4); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+
+  @media (max-width: 500px) {
+    .card-slot { width: 110px; }
+    .spread-grid { gap: 8px; }
+    .cards-list { grid-template-columns: 1fr; }
+    .mode-tabs { max-width: 100%; }
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header>
+    <div class="eyebrow">Tanukichi · Action Oracle Cards</div>
+    <h1>A small nudge<br><em>for today</em></h1>
+    <div class="gold-line"></div>
+    <p class="subtitle">37 animal guides · one action at a time</p>
+  </header>
+
+  <!-- Mode tabs -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tab-single" onclick="switchTab('single')">
+      ✦ &nbsp;Daily Card
+    </button>
+    <button class="mode-tab" id="tab-spread" onclick="switchTab('spread')">
+      Original Spread<span class="lock-icon" id="lockIcon">🔒</span>
+    </button>
+  </div>
+
+  <!-- ══ FREE: Single card ══ -->
+  <div class="section active" id="section-single">
+    <div class="single-area">
+      <button class="draw-btn" id="singleDrawBtn" onclick="drawSingle()">
+        ✦ &nbsp; Draw Your Card &nbsp; ✦
+      </button>
+      <div class="single-card-wrap" id="singleCardWrap">
+        <div class="oracle-card" id="singleCard"></div>
+        <div class="card-desc-box" id="singleDesc"></div>
+        <div class="upsell-box">
+          <p>Want to go deeper?<br><em>The Original Spread</em> lays out five cards<br>and an AI reading for you.</p>
+          <a class="etsy-btn" href="https://www.etsy.com/shop/TanukichiOracleCards" target="_blank">
+            Get the Full Reading
+          </a>
+          <div class="upsell-note">Available on Etsy · Unlock code included</div>
+        </div>
+        <button class="redraw-btn" onclick="resetSingle()">Draw Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SPREAD: 5-card ══ -->
+  <div class="section" id="section-spread">
+
+    <!-- Locked state -->
+    <div id="lockedMsg" class="locked-msg" style="display:none">
+      <div class="lock">🔒</div>
+      <h3>The Original Spread</h3>
+      <p>This reading is available to those<br>who have purchased the full deck.<br>Check your Etsy order for the unlock link.</p>
+      <a class="etsy-btn" href="https://www.etsy.com/shop/TanukichiOracleCards" target="_blank">
+        Visit the Shop
+      </a>
+    </div>
+
+    <!-- Unlocked state -->
+    <div id="spreadContent" style="display:none">
+      <button class="draw-btn" id="spreadDrawBtn" onclick="drawSpread()">
+        ✦ &nbsp; Draw Your Cards &nbsp; ✦
+      </button>
+
+      <div class="spread-grid">
+        <div class="card-slot" data-pos="top">
+          <div class="oracle-card" id="card-top"></div>
+          <div class="pos-label">What you're aware of</div>
+        </div>
+        <div class="card-slot" data-pos="left">
+          <div class="oracle-card" id="card-left"></div>
+          <div class="pos-label">Past · Let go</div>
+        </div>
+        <div class="card-slot" data-pos="center">
+          <div class="oracle-card" id="card-center"></div>
+          <div class="pos-label">You · Right now</div>
+        </div>
+        <div class="card-slot" data-pos="right">
+          <div class="oracle-card" id="card-right"></div>
+          <div class="pos-label">Near future</div>
+        </div>
+        <div class="card-slot" data-pos="bottom">
+          <div class="oracle-card" id="card-bottom"></div>
+          <div class="pos-label">Foundation · Unconscious</div>
+        </div>
+      </div>
+
+      <div class="cards-list" id="cardsList"></div>
+
+      <div class="reading-section" id="readingSection">
+        <div class="reading-header">
+          <h2>Your <em>Reading</em></h2>
+          <div class="gold-line"></div>
+        </div>
+        <div class="reading-box" id="readingBox">
+          <div class="reading-loading">
+            <span>Reading the cards</span>
+            <div class="dots"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width:620px;margin:20px auto 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="save-pdf-btn" id="savePdfBtn" onclick="savePDF()" style="display:none">
+          ✦ &nbsp; Save as PDF &nbsp; ✦
+        </button>
+        <button class="reset-btn" onclick="resetSpread()">Draw Again</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Tanukichi Oracle Cards &nbsp;·&nbsp;
+      <a href="https://hatarakutanukichi.github.io/tanukichi-cards/" target="_blank">日本語版</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.etsy.com/shop/TanukichiOracleCards" target="_blank">Etsy Shop</a>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+const IMG_BASE = 'https://hatarakutanukichi.github.io/tanukichi-cards-en/';
+const ETSY_URL = 'https://www.etsy.com/shop/TanukichiOracleCards';
+
+const CARDS = [
+  { id:1,  animal:"Horse",         action:"Just do it",                desc:"Unfinished to-dos linger in the back of your mind. Clear them out and make space for something new." },
+  { id:2,  animal:"Prairie Dog",   action:"Be kind",                   desc:"You don't have to go out of your way — but when you act, it becomes someone else's lucky break." },
+  { id:3,  animal:"Albatross",     action:"Go somewhere far",          desc:"Long journeys create time to think, feel, and discover things you wouldn't otherwise." },
+  { id:4,  animal:"Mole",          action:"Stay home",                 desc:"Draw the curtains, shut out the noise. Rest from input for a while." },
+  { id:5,  animal:"Sloth",         action:"Take your time",            desc:"Sometimes going slow is how you find what matters." },
+  { id:6,  animal:"Seal",          action:"Do it even uncertain",      desc:"You can't see what's ahead — but you can move. Just go. That's all." },
+  { id:7,  animal:"Snake",         action:"Make it more complex",      desc:"Complexity can reveal a side of things you'd never see otherwise." },
+  { id:8,  animal:"Butterfly",     action:"Let it go",                 desc:"Let go of what you've outgrown and make room for what you actually need now." },
+  { id:9,  animal:"Bee",           action:"Give a gift",               desc:"The giver gains more happiness than the receiver. Something bigger comes back to you." },
+  { id:10, animal:"Mantis",        action:"Cut it off",                desc:"You're holding on to something you should release. Now is the time to cut it loose." },
+  { id:11, animal:"Mantis Shrimp", action:"Keep repeating",            desc:"Form emerges from repeated strikes. Keep going." },
+  { id:12, animal:"Sparrow",       action:"Make small talk",           desc:"If talking feels hard, a smile and a nod are enough." },
+  { id:13, animal:"Chick",         action:"Start anyway",              desc:"Everyone starts as a beginner. Of course it won't be perfect. Just begin." },
+  { id:14, animal:"Fox",           action:"Question it",               desc:"Even routine tasks look different when questioned." },
+  { id:15, animal:"Bear",          action:"Protect yourself",          desc:"Daily training of mind and body is what lets you protect your own heart and health." },
+  { id:16, animal:"Octopus",       action:"Trust your gut",            desc:"Even the wisest knows — in risky places, trust what's in your gut." },
+  { id:17, animal:"Salamander",    action:"Level up",                  desc:"You've finished learning here. Time to move to the next stage." },
+  { id:18, animal:"Dog",           action:"Reach out",                 desc:"Reach out to whoever comes to mind — old friend or regular contact." },
+  { id:19, animal:"Tiger",         action:"Enjoy solitude",            desc:"Intentionally tuning out the world opens up something enjoyable." },
+  { id:20, animal:"Penguin",       action:"Join a community",          desc:"If it doesn't fit, you can leave. And if it does — bonus." },
+  { id:21, animal:"Hippo",         action:"Accept it takes time",      desc:"Once you accept that something will take time, ease follows naturally." },
+  { id:22, animal:"Slime Mold",    action:"Just move forward",         desc:"Moving at all tells you whether you've hit a dead end or found the goal." },
+  { id:23, animal:"Mouse",         action:"Accept the loss",           desc:"What's done is done. Once you accept the loss, you can take the next step." },
+  { id:24, animal:"Whale",         action:"Love fully",                desc:"To love rather than be loved — that's the whole point." },
+  { id:25, animal:"Beaver",        action:"Make a promise",            desc:"Do what you say you'll do. A promise to yourself." },
+  { id:26, animal:"Owl",           action:"Keep the secret",           desc:"You don't have to share everything. Keep what's yours, to protect yourself." },
+  { id:27, animal:"Dolphin",       action:"Send the message",          desc:"Even if your message feels unheard — the act of sending it creates change." },
+  { id:28, animal:"Ghost",         action:"Say what you feel",         desc:"There are things left unsaid. Say them here." },
+  { id:29, animal:"You",           action:"Tell yourself",             desc:"Don't wait for someone else to say the words. You are the first one who should." },
+  { id:30, animal:"Camel",         action:"Cut the excess",            desc:"Start peeling away — things, information, habits." },
+  { id:31, animal:"Cheetah",       action:"Go full positive",          desc:"Accelerate hard and go fully positive. A new view awaits." },
+  { id:32, animal:"Wolf",          action:"Honor your feelings",       desc:"If something feels wrong, it's wrong. Honoring your feelings is honoring yourself." },
+  { id:33, animal:"Crow",          action:"Open up",                   desc:"Beyond that door is the next world. Be brave." },
+  { id:34, animal:"Sardine",       action:"Spend money on yourself",   desc:"Money circulates when it moves. Use it for yourself." },
+  { id:35, animal:"Sea Cucumber",  action:"Hold on",                   desc:"This is the moment to hold on. So hold on." },
+  { id:36, animal:"Armadillo",     action:"Step back from the burden", desc:"It's okay to look away for now. You don't have to face it constantly." },
+  { id:37, animal:"Alien",         action:"The answer is already there", desc:"Follow the voice speaking directly into your mind. Stop pretending you don't know." }
+];
+
+const POSITIONS = [
+  { key:'top',    label:'What you are aware of' },
+  { key:'left',   label:'The past / what to let go' },
+  { key:'center', label:'You, right now' },
+  { key:'right',  label:'The near future' },
+  { key:'bottom', label:'Foundation / unconscious' }
+];
+
+// ── Unlock check ──
+const params = new URLSearchParams(location.search);
+const isUnlocked = params.get('key') === 'rdrQilCZR5TF95PV';
+
+function initSpreadSection() {
+  if (isUnlocked) {
+    document.getElementById('spreadContent').style.display = 'block';
+    document.getElementById('lockedMsg').style.display = 'none';
+    document.getElementById('lockIcon').style.display = 'none';
+  } else {
+    document.getElementById('lockedMsg').style.display = 'block';
+    document.getElementById('spreadContent').style.display = 'none';
+  }
+}
+initSpreadSection();
+
+// ── Tab switch ──
+function switchTab(tab) {
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('section-' + tab).classList.add('active');
+}
+
+// ── Helpers ──
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function imgUrl(card) {
+  const n = String(card.id).padStart(2, '0');
+  return `${IMG_BASE}actioncard-${n}.jpg`;
+}
+function cardHTML(card) {
+  return `
+    <div class="card-img-area">
+      <img src="${imgUrl(card)}" alt="${card.animal}"
+           onerror="this.parentNode.innerHTML='<div class=\\'placeholder\\'>✦</div>'" />
+    </div>
+  `;
+}
+
+// ══ SINGLE CARD ══
+function drawSingle() {
+  document.getElementById('singleDrawBtn').disabled = true;
+  const card = shuffle(CARDS)[0];
+  const el = document.getElementById('singleCard');
+  el.innerHTML = cardHTML(card);
+  document.getElementById('singleDesc').textContent = card.desc;
+  document.getElementById('singleCardWrap').classList.add('visible');
+}
+function resetSingle() {
+  document.getElementById('singleDrawBtn').disabled = false;
+  document.getElementById('singleCardWrap').classList.remove('visible');
+  setTimeout(() => {
+    document.getElementById('singleCard').innerHTML = '';
+    document.getElementById('singleDesc').textContent = '';
+  }, 300);
+}
+
+// ══ SPREAD ══
+let drawnCards = {};
+
+function drawSpread() {
+  document.getElementById('spreadDrawBtn').disabled = true;
+  const center = CARDS[28]; // #29
+  const pool = shuffle(CARDS.filter(c => c.id !== 29));
+  const drawn = pool.slice(0, 4);
+  drawnCards = { top: drawn[0], left: drawn[1], center, right: drawn[2], bottom: drawn[3] };
+
+  const delays = { top:100, left:300, center:500, right:700, bottom:900 };
+  for (const [pos, card] of Object.entries(drawnCards)) {
+    const el = document.getElementById('card-' + pos);
+    el.innerHTML = cardHTML(card);
+    setTimeout(() => el.classList.add('revealed'), delays[pos]);
+  }
+
+  // Card list
+  document.getElementById('cardsList').innerHTML = POSITIONS.map(p => {
+    const c = drawnCards[p.key];
+    return `<div class="card-detail">
+      <div class="card-detail-pos">${p.label}</div>
+      <div class="card-detail-name">${c.id}. ${c.animal} — ${c.action}</div>
+      <div class="card-detail-desc">${c.desc}</div>
+    </div>`;
+  }).join('');
+
+  setTimeout(() => callAI(), 1400);
+}
+
+async function callAI() {
+  const box = document.getElementById('readingBox');
+  const spreadText = POSITIONS.map(p => {
+    const c = drawnCards[p.key];
+    return `${p.label}: #${c.id} ${c.animal} — "${c.action}"\n${c.desc}`;
+  }).join('\n\n');
+
+  const prompt = `You are a gentle, insightful oracle card reader. The user has drawn five cards in a cross spread from the Tanukichi Action Oracle Cards — a deck of 37 illustrated animal cards, each carrying a simple action message.
+
+Spread:
+${spreadText}
+
+Write a warm, thoughtful reading of about 120–150 words in English.
+- Weave the cards into a flowing narrative (do NOT list them one by one).
+- Card #29 "You / Tell yourself" is always in the center — acknowledge this as a reminder of self-compassion.
+- Write in second person ("you"). Be poetic but grounded.
+- End with one short encouraging sentence.`;
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || "The cards have spoken in silence. Trust what you already feel.";
+    box.innerHTML = text.split('\n\n').map(p => `<p style="margin-bottom:0.9em">${p}</p>`).join('');
+    document.getElementById('savePdfBtn').style.display = 'inline-block';
+  } catch(e) {
+    box.innerHTML = `<p style="color:rgba(201,168,76,0.6);font-size:14px">The reading couldn't load right now. Sit with your cards and see what arises.</p>`;
+  }
+}
+
+async function savePDF() {
+  const btn = document.getElementById('savePdfBtn');
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const W = 210, margin = 18;
+  let y = margin;
+
+  // Title
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(150, 120, 50);
+  doc.text('TANUKICHI ACTION ORACLE CARDS', W/2, y, { align: 'center' });
+  y += 7;
+
+  doc.setFontSize(18);
+  doc.setTextColor(30, 22, 18);
+  doc.text('Your Original Spread', W/2, y, { align: 'center' });
+  y += 6;
+
+  const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  doc.setFontSize(9);
+  doc.setTextColor(120, 100, 60);
+  doc.text(today, W/2, y, { align: 'center' });
+  y += 8;
+
+  // Gold line
+  doc.setDrawColor(201, 168, 76);
+  doc.setLineWidth(0.3);
+  doc.line(margin, y, W - margin, y);
+  y += 10;
+
+  // Cards: 5 in a row (or wrapped)
+  const posLabels = {
+    top:    'What you are aware of',
+    left:   'The past / let go',
+    center: 'You · right now',
+    right:  'Near future',
+    bottom: 'Foundation / unconscious'
+  };
+  const order = ['top','left','center','right','bottom'];
+  const cardW = 30, cardH = 42, cardGap = 4;
+  const totalW = order.length * cardW + (order.length - 1) * cardGap;
+  let cx = (W - totalW) / 2;
+
+  const imgPromises = order.map(pos => {
+    return new Promise(resolve => {
+      const card = drawnCards[pos];
+      const n = String(card.id).padStart(2,'0');
+      const url = IMG_BASE + 'actioncard-' + n + '.jpg';
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width; canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        resolve({ pos, card, dataUrl: canvas.toDataURL('image/jpeg', 0.85) });
+      };
+      img.onerror = () => resolve({ pos, card, dataUrl: null });
+      img.src = url;
+    });
+  });
+
+  const results = await Promise.all(imgPromises);
+
+  for (const { pos, card, dataUrl } of results) {
+    const isCenter = pos === 'center';
+    // card border
+    doc.setDrawColor(201, 168, 76);
+    doc.setLineWidth(isCenter ? 0.6 : 0.3);
+    doc.rect(cx, y, cardW, cardH);
+    if (dataUrl) {
+      doc.addImage(dataUrl, 'JPEG', cx + 1, y + 1, cardW - 2, cardH - 2);
+    }
+    // position label
+    doc.setFontSize(6);
+    doc.setTextColor(150, 120, 50);
+    const label = posLabels[pos];
+    doc.text(label, cx + cardW/2, y + cardH + 4, { align: 'center', maxWidth: cardW + 4 });
+    cx += cardW + cardGap;
+  }
+
+  y += cardH + 14;
+
+  // Card details
+  doc.setDrawColor(201, 168, 76);
+  doc.line(margin, y, W - margin, y);
+  y += 7;
+
+  for (const pos of order) {
+    const card = drawnCards[pos];
+    doc.setFontSize(8);
+    doc.setTextColor(150, 120, 50);
+    doc.text(posLabels[pos].toUpperCase(), margin, y);
+    y += 4.5;
+    doc.setFontSize(10);
+    doc.setTextColor(30, 22, 18);
+    doc.text(`${card.id}. ${card.animal} — ${card.action}`, margin, y);
+    y += 4;
+    doc.setFontSize(8);
+    doc.setTextColor(80, 70, 60);
+    const lines = doc.splitTextToSize(card.desc, W - margin * 2);
+    doc.text(lines, margin, y);
+    y += lines.length * 4 + 4;
+  }
+
+  y += 2;
+  doc.setDrawColor(201, 168, 76);
+  doc.line(margin, y, W - margin, y);
+  y += 8;
+
+  // AI Reading
+  const readingText = document.getElementById('readingBox').innerText.trim();
+  if (readingText && !readingText.includes('Reading the cards')) {
+    doc.setFontSize(13);
+    doc.setTextColor(30, 22, 18);
+    doc.text('Your Reading', W/2, y, { align: 'center' });
+    y += 7;
+    doc.setFontSize(9);
+    doc.setTextColor(60, 50, 40);
+    const rLines = doc.splitTextToSize(readingText, W - margin * 2);
+    // add page if needed
+    if (y + rLines.length * 5 > 285) { doc.addPage(); y = margin; }
+    doc.text(rLines, margin, y);
+    y += rLines.length * 5 + 8;
+  }
+
+  // Footer
+  doc.setFontSize(7);
+  doc.setTextColor(150, 130, 80);
+  doc.text('tanukichi-oracle-cards.github.io', W/2, 290, { align: 'center' });
+
+  doc.save('tanukichi-spread-' + new Date().toISOString().slice(0,10) + '.pdf');
+  btn.disabled = false;
+  btn.innerHTML = '✦ &nbsp; Save as PDF &nbsp; ✦';
+}
+
+function resetSpread() {
+  document.getElementById('spreadDrawBtn').disabled = false;
+  ['top','left','center','right','bottom'].forEach(pos => {
+    const el = document.getElementById('card-' + pos);
+    el.innerHTML = '';
+    el.classList.remove('revealed');
+  });
+  document.getElementById('cardsList').innerHTML = '';
+  document.getElementById('savePdfBtn').style.display = 'none';
+  document.getElementById('readingBox').innerHTML = `
+    <div class="reading-loading">
+      <span>Reading the cards</span>
+      <div class="dots"><span></span><span></span><span></span></div>
+    </div>`;
+  drawnCards = {};
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
